@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Authful/v15
+/AuthfulSample/bin/x86/Debug
+/AuthfulSample/obj
+/bin
+/obj
+/.vs
