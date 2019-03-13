@@ -55,15 +55,17 @@ namespace InTheHand.Security.Authentication.Web
             closeButton.Click += (s,e) => { dialog.Hide(); };
             grid.Children.Add(closeButton);
             
-            var webView = new WebView(WebViewExecutionMode.SeparateProcess) { Source = requestUri };
+            var webView = new WebView(WebViewExecutionMode.SameThread) { Source = requestUri };
+            webView.AllowFocusOnInteraction = true;
             webView.SetValue(Grid.RowProperty, 1);
             webView.NavigationStarting += WebView_NavigationStarting;
             webView.NavigationFailed += WebView_NavigationFailed;
-            webView.MinWidth = 600;
-            webView.MinHeight = 400;
+            webView.MinWidth = 480;
+            webView.MinHeight = 600;
             grid.Children.Add(webView);
             
             dialog.Content = grid;
+            dialog.GotFocus += (s, e) => { webView.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
             var res = await dialog.ShowAsync();
             return new WebAuthenticationResult(code, errorCode, errorCode > 0 ? WebAuthenticationStatus.ErrorHttp : string.IsNullOrEmpty(code) ? WebAuthenticationStatus.UserCancel : WebAuthenticationStatus.Success);
         }
